@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Map from './Map'
+import List from './List'
 import './App.css'
 
 const locations = [
@@ -44,7 +45,10 @@ const locations = [
 class App extends Component {
   render() {
     return (
-      <Map mapLocations={locations} />
+      <div class="container">
+        <List listLocations={locations}/>
+        <Map mapLocations={locations} />
+      </div> 
     );
   }
 }

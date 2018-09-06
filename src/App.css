@@ -1,25 +1,69 @@
-.App {
-  text-align: center;
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
+.list-container {
+  width: 30%;
   background-color: #222;
-  height: 150px;
-  padding: 20px;
   color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
+.list-container h1 {
+  text-align: center;
 }
 
-.App-intro {
-  font-size: large;
+.list-container form {
+  display: flex;
+  flex-direction: row;
+  margin: 2rem 0;
+}
+
+.list-container form input {
+  padding: .3rem;
+  width: 60%;
+  margin-left: 1rem
+}
+
+.list-container form #filter {
+  width: 20%;
+  background-color: #41889b;
+  color: white;
+  font-weight: bold;
+  border: none;
+  margin-left: 1rem;
+  cursor: pointer
+}
+
+.locations-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding-left: 0
+}
+
+.list-item {
+  width: 100%;
+  border-bottom: 1px solid white;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.list-item:first-of-type {
+  border-top: 1px solid white
+}
+
+/* To be removed */
+.list-item a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 2rem 0;
+}
+
+.list-item a:hover {
+  background-color: #2e869d;
+  font-weight: bold;
 }
 
 .pop-up {
