@@ -26,6 +26,14 @@
   max-width: 240px
 }
 
+.popup-container {
+  padding-top: .5rem;
+}
+
+.popup-image {
+  max-width: 100%;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

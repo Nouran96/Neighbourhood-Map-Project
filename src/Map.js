@@ -40,7 +40,7 @@ class Map extends Component {
         locations.forEach(location => {
             const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
 
-            this.addTextToPopup(popup, location.id)
+            this.addTextToPopup(popup, location)
         
             const marker = new mapboxgl.Marker()
                 .setLngLat(location.latLng)
@@ -49,13 +49,19 @@ class Map extends Component {
         });
     }
 
-    addTextToPopup(popup, id) {
+    addTextToPopup(popup, location) {
         // Make sure that all asynchronous fetching is finished to access the data
         Promise.all(descriptionResults).then(results => {
             results.forEach(data => {
                 // Take only the description that has the same id as the location
-                if(data.id === id) {
-                    popup.setText(data.description)
+                if(data.id === location.id) {
+                    popup.setHTML(`
+                    <div class="popup-container">
+                        <img class="popup-image" src=${location.imageSrc} />
+                        <h3>${location.name}</h3>
+                        <p id="description">${data.description}</p>
+                    </div>
+                    `)
                 }
             })
         })
@@ -76,6 +82,7 @@ class Map extends Component {
         return descriptionResults
     }
 
+    // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
     async fetchAsync(site, location) {
         // await response of fetch call
         let response = await fetch(site);
