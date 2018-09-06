@@ -42,7 +42,7 @@ class Map extends Component {
 
             this.addTextToPopup(popup, location)
         
-            const marker = new mapboxgl.Marker()
+            const marker = new mapboxgl.Marker({color: '#f44250'})
                 .setLngLat(location.latLng)
                 .setPopup(popup)
                 .addTo(map);   

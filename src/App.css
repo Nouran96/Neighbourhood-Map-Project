@@ -19,7 +19,7 @@
   margin: 2rem 0;
 }
 
-.list-container form input {
+.list-container form select {
   padding: .3rem;
   width: 60%;
   margin-left: 1rem
@@ -27,7 +27,7 @@
 
 .list-container form #filter {
   width: 20%;
-  background-color: #41889b;
+  background-color: #f44250;
   color: white;
   font-weight: bold;
   border: none;
@@ -47,10 +47,6 @@
   border-bottom: 1px solid white;
   text-align: center;
   font-size: 1.3rem;
-}
-
-.list-item:first-of-type {
-  border-top: 1px solid white
 }
 
 /* To be removed */

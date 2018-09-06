@@ -45,7 +45,7 @@ const locations = [
 class App extends Component {
   render() {
     return (
-      <div class="container">
+      <div className="container">
         <List listLocations={locations}/>
         <Map mapLocations={locations} />
       </div> 
