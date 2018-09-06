@@ -22,6 +22,10 @@
   font-size: large;
 }
 
+.pop-up {
+  max-width: 240px
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

@@ -14,6 +14,8 @@ var popupOffsets = {
     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
 };
 
+let descriptionResults = [];
+
 class Map extends Component {
 
     componentDidMount() {
@@ -25,6 +27,9 @@ class Map extends Component {
             zoom: 5.5
         });
 
+        // Fetch locations description from wikimedia API
+        this.getLocationsDescription();
+
         this.createMarkersWithPopups(map);
     }
 
@@ -33,14 +38,53 @@ class Map extends Component {
         const locations = this.props.mapLocations;
 
         locations.forEach(location => {
-            var popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
-                .setText(location.name);
+            const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
+
+            this.addTextToPopup(popup, location.id)
         
-            var marker = new mapboxgl.Marker()
+            const marker = new mapboxgl.Marker()
                 .setLngLat(location.latLng)
                 .setPopup(popup)
-                .addTo(map);
+                .addTo(map);   
         });
+    }
+
+    addTextToPopup(popup, id) {
+        // Make sure that all asynchronous fetching is finished to access the data
+        Promise.all(descriptionResults).then(results => {
+            results.forEach(data => {
+                // Take only the description that has the same id as the location
+                if(data.id === id) {
+                    popup.setText(data.description)
+                }
+            })
+        })
+    }
+
+    getLocationsDescription() {
+        const locations = this.props.mapLocations;
+
+        locations.forEach((location, index) => {
+            let site = `https://en.wikipedia.org/w/api.php?action=opensearch&search=${location.urlSearchTerm}&limit=1&namespace=0&format=json&origin=*`;
+
+            // Store an id property for every location to match its description
+            location.id = index
+
+            descriptionResults.push(this.fetchAsync(site, location))
+        })
+        
+        return descriptionResults
+    }
+
+    async fetchAsync(site, location) {
+        // await response of fetch call
+        let response = await fetch(site);
+        // only proceed once promise is resolved
+        let data = await response.json();
+        // only proceed once second promise is resolved
+        let result = {id: location.id, description: data[2][0]}
+
+        return result;
     }
 
     render() {
