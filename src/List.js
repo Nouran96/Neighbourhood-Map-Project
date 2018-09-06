@@ -47,8 +47,6 @@ class List extends Component {
             <div className="list-container">
                 <h1>Egypt's Locations</h1>
                 <form>
-                    {/* <input type="text" name="search" placeholder="Search for a place in list"/>
-                    <button id="filter">Filter</button> */}
                     <select value={this.state.value} onChange={(e) => this.changeValue(e)}>
 
                         <option value="all">All Places</option>
@@ -61,8 +59,10 @@ class List extends Component {
                 </form>
                 <ul className="locations-list">
                     {this.props.listLocations.map(location => (
-                        <li key={location.name} className="list-item">
-                            <a href="#">{location.name}</a>
+                        <li key={location.name} className="list-item" onClick={() =>{
+                            this.props.togglePopup(location.name)
+                        }}>
+                            {location.name}
                         </li>
                     ))}
                 </ul>

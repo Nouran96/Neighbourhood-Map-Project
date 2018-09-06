@@ -14,38 +14,49 @@ var popupOffsets = {
     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
 };
 
-let descriptionResults = [];
+let descriptionResults = [],
+    markers = [],
+    popups = [],
+    map;
 
 class Map extends Component {
 
+    state = {
+        chosenLocation: this.props.clickedLocation
+    }
+
     componentDidMount() {
         mapboxgl.accessToken = 'pk.eyJ1Ijoibm91cmFucyIsImEiOiJjamwxenJ3Z20xbGMxM3FxazlqbHdoYW80In0.d42qV9z_Se6BiYI32ZREIQ';
-        const map = new mapboxgl.Map({
+        map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v9',
-            center: [31.200092, 28.318739],
+            center: [33.200092, 27.318739],
             zoom: 5.5
         });
 
         // Fetch locations description from wikimedia API
         this.getLocationsDescription();
 
-        this.createMarkersWithPopups(map);
+        this.createMarkersWithPopups();
     }
 
     // Creates the markers specific for each location with corresponding popup
-    createMarkersWithPopups(map) {
+    createMarkersWithPopups() {
         const locations = this.props.mapLocations;
 
         locations.forEach(location => {
             const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
 
             this.addTextToPopup(popup, location)
+
+            popups.push({id: location.name, popup: popup})
         
             const marker = new mapboxgl.Marker({color: '#f44250'})
                 .setLngLat(location.latLng)
                 .setPopup(popup)
-                .addTo(map);   
+                .addTo(map);
+
+            markers.push({id: location.name, marker: marker})
         });
     }
 
@@ -64,6 +75,15 @@ class Map extends Component {
                     `)
                 }
             })
+        })
+    }
+
+    showClickedLocationPopup(locationName) {
+        popups.map(popupData => {
+            popupData.popup.remove()
+            if(popupData.id === locationName) {
+                popupData.popup.addTo(map)
+            }
         })
     }
 
@@ -95,6 +115,7 @@ class Map extends Component {
     }
 
     render() {
+        this.showClickedLocationPopup(this.props.clickedLocation)
         return (
             <div id="map" style={{width: '100%', height: '100vh'}}></div>
         )

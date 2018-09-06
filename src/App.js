@@ -43,11 +43,20 @@ const locations = [
 ];
 
 class App extends Component {
+
+  state = {
+    location: ''
+  }
+
+  changeLocation(name) {
+    this.setState({ location: name })
+  }
+
   render() {
     return (
       <div className="container">
-        <List listLocations={locations}/>
-        <Map mapLocations={locations} />
+        <List listLocations={locations} togglePopup={this.changeLocation.bind(this)}/>
+        <Map mapLocations={locations} clickedLocation={this.state.location}/>
       </div> 
     );
   }
