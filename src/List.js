@@ -23,8 +23,8 @@ class List extends Component {
         if(this.state.value === 'all') {
             listItemsArr.forEach(item => {
                 item.style.display = 'block'
-                return;
             })
+            this.props.filterMap('all')
             return true;
         }
 
@@ -40,6 +40,8 @@ class List extends Component {
                 item.style.display = 'block'
             }
         });
+
+        this.props.filterMap(searchedLocation[0].textContent)
     }
 
     render() {
@@ -55,7 +57,9 @@ class List extends Component {
                         ))}
 
                     </select>
-                    <button id="filter" onClick={(e) => this.filterLocations(e)}>Filter</button>
+                    <button id="filter" onClick={(e) => {
+                        this.filterLocations(e)
+                    }}>Filter</button>
                 </form>
                 <ul className="locations-list">
                     {this.props.listLocations.map(location => (

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import debounce from 'lodash.debounce'
 import Map from './Map'
 import List from './List'
 import './App.css'
@@ -42,21 +43,46 @@ const locations = [
   }
 ];
 
+let filtered = false;
+
 class App extends Component {
 
   state = {
-    location: ''
+    popupLocation: '',
+    markerLocation: 'all'
   }
 
+  // Get the location from the list to use it in map
   changeLocation(name) {
-    this.setState({ location: name })
+    this.setState({ popupLocation: name})
+  }
+
+  hideAllPopups() {
+    this.setState({popupLocation: ''})
+    this.doneFiltering()
+  }
+
+  filterMap(location) {
+    this.setState({markerLocation: location})
+    filtered = true
+  }
+
+  doneFiltering() {
+    filtered = false
   }
 
   render() {
     return (
       <div className="container">
-        <List listLocations={locations} togglePopup={this.changeLocation.bind(this)}/>
-        <Map mapLocations={locations} clickedLocation={this.state.location}/>
+        <List listLocations={locations} togglePopup={this.changeLocation.bind(this)} filterMap={this.filterMap.bind(this)}/>
+
+        <Map mapLocations={locations}
+             clickedLocation={this.state.popupLocation}
+            chosenLocation={this.state.markerLocation}
+            hideAllPopups={this.hideAllPopups.bind(this)}
+            filtered={filtered}
+            >
+        </Map>
       </div> 
     );
   }

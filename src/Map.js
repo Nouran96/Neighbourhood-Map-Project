@@ -22,7 +22,7 @@ let descriptionResults = [],
 class Map extends Component {
 
     state = {
-        chosenLocation: this.props.clickedLocation
+        
     }
 
     componentDidMount() {
@@ -38,6 +38,11 @@ class Map extends Component {
         this.getLocationsDescription();
 
         this.createMarkersWithPopups();
+    }
+
+    componentDidUpdate() {
+        this.showChosenMarker(this.props.chosenLocation)
+        this.showClickedLocationPopup(this.props.clickedLocation)
     }
 
     // Creates the markers specific for each location with corresponding popup
@@ -79,10 +84,32 @@ class Map extends Component {
     }
 
     showClickedLocationPopup(locationName) {
-        popups.map(popupData => {
-            popupData.popup.remove()
+        popups.forEach(popupData => {
+            // If the filter button is clicked, hide any shown popup
+            if(this.props.filtered) {
+                this.props.hideAllPopups()
+            }
+            
+            // Show clicked location popup
             if(popupData.id === locationName) {
-                popupData.popup.addTo(map)
+                popupData.popup.addTo(map)              
+            }
+        })
+    }
+
+    showChosenMarker(locationName) {
+        markers.forEach(markerData => {
+            // Show all markers
+            if(locationName === 'all'){
+                markerData.marker.addTo(map)
+            }
+            // Show specific marker on filteration
+            else if(markerData.id === locationName) {
+                markerData.marker.addTo(map)
+            }
+            // Remove any other marker on filteration
+            else{
+                markerData.marker.remove()
             }
         })
     }
@@ -115,7 +142,7 @@ class Map extends Component {
     }
 
     render() {
-        this.showClickedLocationPopup(this.props.clickedLocation)
+
         return (
             <div id="map" style={{width: '100%', height: '100vh'}}></div>
         )
