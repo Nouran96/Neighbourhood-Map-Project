@@ -19,7 +19,7 @@ body {
   background-color: #000;
   color: white;
   position: relative;
-  height: 100vh
+  height: 100vh;
 }
 
 .list-icon {
@@ -108,7 +108,25 @@ body {
   left: 48rem
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@media (max-width: 375px) {
+  #list {
+    width: 14rem
+  }
+
+  .list-icon {
+    font-size: 1.5rem
+  }
+
+  .list-container h1 {
+    font-size: 1.3rem;
+    padding-bottom: 0
+  }
+
+  .list-container form {
+    margin-bottom: 1rem
+  }
+
+  .list-item {
+    font-size: 1rem
+  }
 }
