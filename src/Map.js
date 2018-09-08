@@ -30,7 +30,7 @@ class Map extends Component {
         map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v9',
-            center: [33.200092, 27.318739],
+            center: [29.200092, 27.318739],
             zoom: 5.5
         });
 
@@ -38,6 +38,16 @@ class Map extends Component {
         this.getLocationsDescription();
 
         this.createMarkersWithPopups();
+
+        // Listen to changes of viewport to center map
+        window.addEventListener('resize', () => {
+            if(document.body.clientWidth <= 800) {
+                this.centerMap()
+            }
+            else {
+                this.returnMapToOriginal()
+            }
+        })
     }
 
     componentDidUpdate() {
@@ -57,7 +67,7 @@ class Map extends Component {
     
                 popups.push({id: location.name, popup: popup})
             
-                const marker = new mapboxgl.Marker({color: '#f44250'})
+                const marker = new mapboxgl.Marker({color: '#c22632'})
                     .setLngLat(location.latLng)
                     .setPopup(popup)
                     .addTo(map);
@@ -66,7 +76,7 @@ class Map extends Component {
     
                 // Return the color of the marker to red after closing the popup
                 popup.on('close', () => {
-                    marker._element.children[0].children[0].children[1].attributes[0].textContent = '#f44250'
+                    marker._element.children[0].children[0].children[1].attributes[0].textContent = '#c22632'
                 })
     
     
@@ -99,7 +109,7 @@ class Map extends Component {
                 if(data.id === location.id) {
                     popup.setHTML(`
                     <div class="popup-container">
-                        <img class="popup-image" src=${location.imageSrc} />
+                        <img class="popup-image" src=${location.imageSrc} alt=${location.name}/>
                         <h3>${location.name}</h3>
                         <p id="description">${data.description}</p>
                     </div>
@@ -147,6 +157,18 @@ class Map extends Component {
         })
     }
 
+    // Center map on small and medium screens
+    centerMap() {
+        map.setCenter([31.900092, 27.318739])
+        map.setZoom(4.5)
+    }
+
+    // return map to original center if viewport is larger that 800
+    returnMapToOriginal() {
+        map.setCenter([29.200092, 27.318739])
+        map.setZoom(5.5)
+    }
+
     getLocationsDescription() {
         const locations = this.props.mapLocations;
 
@@ -177,7 +199,7 @@ class Map extends Component {
     render() {
 
         return (
-            <div id="map" style={{width: '100%', height: '100vh'}}></div>
+            <div id="map" style={{}}></div>
         )
     }
 }

@@ -71,10 +71,22 @@ class App extends Component {
     filtered = false
   }
 
+  addAllCloseClasses() {
+    const list = document.getElementById('list'),
+          listIcon = document.querySelector('.list-icon')
+
+    list.classList.toggle('close-list')
+    listIcon.classList.toggle('close-list-icon')
+  }
+
   render() {
     return (
       <div className="container">
-        <List listLocations={locations} togglePopup={this.changeLocation.bind(this)} filterMap={this.filterMap.bind(this)}/>
+        <List listLocations={locations}
+              togglePopup={this.changeLocation.bind(this)}
+              filterMap={this.filterMap.bind(this)}
+              closeMenu={this.addAllCloseClasses}>
+        </List>
 
         <Map mapLocations={locations}
              clickedLocation={this.state.popupLocation}
