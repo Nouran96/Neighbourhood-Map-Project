@@ -22,7 +22,7 @@ let descriptionResults = [],
 class Map extends Component {
 
     state = {
-        
+        done: false
     }
 
     componentDidMount() {
@@ -47,22 +47,48 @@ class Map extends Component {
 
     // Creates the markers specific for each location with corresponding popup
     createMarkersWithPopups() {
-        const locations = this.props.mapLocations;
+        map.on('load', () => {
+            const locations = this.props.mapLocations;
 
-        locations.forEach(location => {
-            const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
+            locations.forEach(location => {
+                const popup = new mapboxgl.Popup({offset: popupOffsets, className: 'pop-up'})
+    
+                this.addTextToPopup(popup, location)
+    
+                popups.push({id: location.name, popup: popup})
+            
+                const marker = new mapboxgl.Marker({color: '#f44250'})
+                    .setLngLat(location.latLng)
+                    .setPopup(popup)
+                    .addTo(map);
+    
+                markers.push({id: location.name, marker: marker, element: marker._element})
+    
+                // Return the color of the marker to red after closing the popup
+                popup.on('close', () => {
+                    marker._element.children[0].children[0].children[1].attributes[0].textContent = '#f44250'
+                })
+    
+    
+            });
+    
+            map.on('click', (e) => {
+                // Store the clocked element on map
+                let clickedElement = e.originalEvent.path[4]
 
-            this.addTextToPopup(popup, location)
-
-            popups.push({id: location.name, popup: popup})
+                console.log(e.originalEvent.path)
         
-            const marker = new mapboxgl.Marker({color: '#f44250'})
-                .setLngLat(location.latLng)
-                .setPopup(popup)
-                .addTo(map);
-
-            markers.push({id: location.name, marker: marker})
-        });
+                // Check that the clicked element is a marker
+                if(clickedElement.classList.contains('mapboxgl-marker')) {
+                    // Get the specific clicked marker that matches the clicked element
+                    let clickedMarkerData = markers.filter(markerData => clickedElement === markerData.element)
+    
+                    // Change the color of g element in svg of marker
+                    clickedMarkerData[0].element.children[0].children[0].children[1].attributes[0].textContent = '#222'
+                }
+            })
+        })
+        
     }
 
     addTextToPopup(popup, location) {
