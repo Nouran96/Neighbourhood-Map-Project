@@ -39,20 +39,26 @@ class Map extends Component {
 
         this.createMarkersWithPopups();
 
+        this.centerMapIfNeeded();
+
         // Listen to changes of viewport to center map
         window.addEventListener('resize', () => {
-            if(document.body.clientWidth <= 800) {
-                this.centerMap()
-            }
-            else {
-                this.returnMapToOriginal()
-            }
+            this.centerMapIfNeeded()
         })
     }
 
     componentDidUpdate() {
         this.showChosenMarker(this.props.chosenLocation)
         this.showClickedLocationPopup(this.props.clickedLocation)
+    }
+
+    centerMapIfNeeded() {
+        if(document.body.clientWidth <= 800) {
+            this.centerMap()
+        }
+        else {
+            this.returnMapToOriginal()
+        }
     }
 
     // Creates the markers specific for each location with corresponding popup

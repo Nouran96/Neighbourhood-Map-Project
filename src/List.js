@@ -8,8 +8,15 @@ class List extends Component {
 
     componentDidMount() {
         // Listen to changes of viewport to show or hide list by default
+        this.hideOrShowList()
+        
         window.addEventListener('resize', () => {
-            const list = document.getElementById('list'),
+            this.hideOrShowList()
+        })
+    }
+
+    hideOrShowList() {
+        const list = document.getElementById('list'),
                 listIcon = document.querySelector('.list-icon')
 
             if(document.body.clientWidth <= 800) {
@@ -22,7 +29,6 @@ class List extends Component {
                 list.classList.remove('close-list')
                 listIcon.classList.remove('close-list-icon')
             }
-        })
     }
 
     // Keep the select menu value updated with the selected option through state
