@@ -63,7 +63,7 @@ class List extends Component {
                 </form>
                 <ul className="locations-list">
                     {this.props.listLocations.map(location => (
-                        <li key={location.name} className="list-item" onClick={() =>{
+                        <li key={location.name} className="list-item" onClick={(e) =>{
                             this.props.togglePopup(location.name)
                         }}>
                             {location.name}

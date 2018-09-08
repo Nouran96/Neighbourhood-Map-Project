@@ -121,6 +121,13 @@ class Map extends Component {
                 popupData.popup.addTo(map)              
             }
         })
+
+        // Change the color of marker on clicking from the list
+        markers.forEach(markerData => {
+            if(markerData.id === locationName) {
+                markerData.element.children[0].children[0].children[1].attributes[0].textContent = '#222'
+            }
+        })
     }
 
     showChosenMarker(locationName) {
