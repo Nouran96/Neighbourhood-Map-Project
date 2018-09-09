@@ -70,12 +70,13 @@ class List extends Component {
     }
 
     render() {
+
         return (
             <div id="list">
                 <div className="list-container">
                     <h1>Egypt's Locations</h1>
                     <form>
-                        <select value={this.state.value} onChange={(e) => this.changeValue(e)}>
+                        <select value={this.state.value} onChange={(e) => this.changeValue(e)} aria-label="Locations">
 
                             <option value="all">All Places</option>
                             {this.props.listLocations.map(location => (
@@ -87,18 +88,24 @@ class List extends Component {
                             this.filterLocations(e)
                         }}>Filter</button>
                     </form>
-                    <ul className="locations-list">
+                    <ul className="locations-list" role="menu">
                         {this.props.listLocations.map(location => (
-                            <li key={location.name} className="list-item" onClick={(e) =>{
+                            <li key={location.name} className="list-item" tabIndex='0' onClick={() =>{
                                 this.props.togglePopup(location.name)
-                            }}>
+                            }} onKeyDown={(e) => {
+                                if(e.keyCode === 13) //Enter key
+                                    this.props.togglePopup(location.name)
+                            }} role="menuitem">
                                 {location.name}
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                <span className="list-icon" onClick={this.props.closeMenu}>
+                <span className="list-icon" onClick={this.props.closeMenu} onKeyDown={(e) => {
+                    if(e.keyCode === 13)
+                        this.props.closeMenu()
+                }} tabIndex='0' aria-label="menu" title="Menu">
                     <i className="fas fa-align-justify"></i>
                 </span>
             </div>
