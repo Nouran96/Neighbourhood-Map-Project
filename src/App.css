@@ -99,6 +99,11 @@ body {
   max-width: 100%;
 }
 
+#attribution a {
+  font-weight: bold;
+  color: black
+}
+
 /* Hide list */
 .close-list {
   left: -48rem !important

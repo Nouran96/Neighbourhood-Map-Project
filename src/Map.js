@@ -117,6 +117,7 @@ class Map extends Component {
                         <img class="popup-image" src=${location.imageSrc} alt=${location.name}/>
                         <h3>${location.name}</h3>
                         <p id="description">${data.description}</p>
+                        <p id="attribution"><a href="https://www.mediawiki.org/wiki/API:Main_page" target="_blank">Wikimedia API</a></p>
                     </div>
                     `)
                 }
