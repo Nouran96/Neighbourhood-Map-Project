@@ -91,8 +91,6 @@ class Map extends Component {
             map.on('click', (e) => {
                 // Store the clocked element on map
                 let clickedElement = e.originalEvent.path[4]
-
-                console.log(e.originalEvent.path)
         
                 // Check that the clicked element is a marker
                 if(clickedElement.classList.contains('mapboxgl-marker')) {
@@ -111,14 +109,23 @@ class Map extends Component {
         // Make sure that all asynchronous fetching is finished to access the data
         Promise.all(descriptionResults).then(results => {
             results.forEach(data => {
+                
                 // Take only the description that has the same id as the location
-                if(data.id === location.id) {
+                if(data.hasOwnProperty('id') && data.id === location.id) {
                     popup.setHTML(`
                     <div class="popup-container">
                         <img class="popup-image" src=${location.imageSrc} alt=${location.name}/>
                         <h3>${location.name}</h3>
                         <p id="description">${data.description}</p>
                     </div>
+                    `)
+                }
+                // In case of error in fetching the description from API
+                if(!data.hasOwnProperty('id')) {
+                    popup.setHTML(`
+                        <div class="popup-container">
+                            <p>${data}</p>
+                        </div>
                     `)
                 }
             })
@@ -192,12 +199,20 @@ class Map extends Component {
 
     // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
     async fetchAsync(site, location) {
+        let data, result;
         // await response of fetch call
-        let response = await fetch(site);
-        // only proceed once promise is resolved
-        let data = await response.json();
-        // only proceed once second promise is resolved
-        let result = {id: location.id, description: data[2][0]}
+        let response = await fetch(site).catch(err => console.log(err));
+        
+        if(response !== undefined) {
+            // only proceed once promise is resolved
+            data = await response.json();
+            // only proceed once second promise is resolved
+            result = {id: location.id, description: data[2][0]}
+        }
+        // In case of error in fetching data
+        else {
+            result = 'Failed to fetch description of the place'
+        }
 
         return result;
     }
