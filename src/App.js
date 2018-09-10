@@ -3,6 +3,7 @@ import Map from './Map'
 import List from './List'
 import './App.css'
 
+// Locations data
 const locations = [
   {
       latLng: [33.975561111111,28.555830555556],
@@ -42,13 +43,13 @@ const locations = [
   }
 ];
 
-let filtered = false;
+let filtered = false; //Checker for clicking filter button
 
 class App extends Component {
 
   state = {
-    popupLocation: '',
-    markerLocation: 'all'
+    popupLocation: '', // Stores the clicked location from the list
+    markerLocation: 'all' // Stores the chosen location from select menu
   }
 
   // Get the location from the list to use it in map

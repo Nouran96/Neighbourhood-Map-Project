@@ -14,10 +14,10 @@ var popupOffsets = {
     'right': [-markerRadius, (markerHeight - markerRadius) * -1]
 };
 
-let descriptionResults = [],
-    markers = [],
-    popups = [],
-    map;
+let descriptionResults = [], // Stores the fetched promises
+    markers = [], // stores all the markers
+    popups = [], // stores all popups
+    map; // stores the map
 
 class Map extends Component {
 
@@ -39,7 +39,7 @@ class Map extends Component {
 
         this.createMarkersWithPopups();
 
-        this.centerMapIfNeeded();
+        this.centerMapIfNeeded(); // Center map on certain viewport size
 
         // Listen to changes of viewport to center map
         window.addEventListener('resize', () => {

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class List extends Component {
 
     state = {
-        value: 'all'
+        value: 'all' // Responsible for changing and storing the value in select menu
     }
 
     componentDidMount() {
