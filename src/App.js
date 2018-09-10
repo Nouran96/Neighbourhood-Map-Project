@@ -55,9 +55,9 @@ class App extends Component {
   // Get the location from the list to use it in map
   changeLocation(name) {
     // Show the popup if hidden and hide it if shown
-    if(this.state.popupLocation === '')
+    if(this.state.popupLocation === '' || this.state.popupLocation !== name)
       this.setState({ popupLocation: name})
-    else
+    else if(this.state.popupLocation === name)
       this.setState({ popupLocation: ''})
   }
 
