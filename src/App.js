@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import debounce from 'lodash.debounce'
 import Map from './Map'
 import List from './List'
 import './App.css'
