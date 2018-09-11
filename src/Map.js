@@ -202,7 +202,7 @@ class Map extends Component {
     async fetchAsync(site, location) {
         let data, result;
         // await response of fetch call
-        let response = await fetch(site).catch(err => console.log(err));
+        let response = await fetch(site).catch(err => alert(err + ' ' + location.name + ' description'));
         
         if(response !== undefined) {
             // only proceed once promise is resolved
@@ -221,7 +221,7 @@ class Map extends Component {
     render() {
 
         return (
-            <div id="map" style={{}}></div>
+            <div id="map" role="application"></div>
         )
     }
 }

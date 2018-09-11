@@ -72,7 +72,7 @@ class List extends Component {
     render() {
 
         return (
-            <div id="list">
+            <nav id="list">
                 <div className="list-container">
                     <h1>Egypt's Locations</h1>
                     <form>
@@ -108,7 +108,7 @@ class List extends Component {
                 }} tabIndex='0' aria-label="menu" title="Menu">
                     <i className="fas fa-align-justify"></i>
                 </span>
-            </div>
+            </nav>
         )
     }
 }
